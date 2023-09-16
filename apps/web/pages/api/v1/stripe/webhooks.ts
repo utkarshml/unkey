@@ -94,16 +94,11 @@ export default async function webhookHandler(req: NextApiRequest, res: NextApiRe
           .where(eq(schema.workspaces.id, ws.id));
 
         if (loops) {
-          const portal = await stripe.billingPortal.sessions.create({
-            customer: ws.stripeCustomerId!,
-          });
-
           const users = await getUsers(ws.tenantId);
           for await (const user of users) {
             await loops.sendSubscriptionEnded({
               email: user.email,
               name: user.name,
-              billingPortalLink: portal.url,
             });
           }
         }
