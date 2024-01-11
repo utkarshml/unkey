@@ -22,7 +22,7 @@ import { Workspace } from "@unkey/db";
 import Link from "next/link";
 type Props = {
   workspace: {
-    plan: Workspace["plan"];
+    features: Workspace["features"];
   };
   api: {
     id: string;
@@ -35,8 +35,25 @@ type Props = {
 export const UpdateIpWhitelist: React.FC<Props> = ({ api, workspace }) => {
   const { toast } = useToast();
   const { pending } = useFormStatus();
+  const router = useRouter();
+  const whitelistingEnabledForWorkspace = workspace.features.ipWhitelist === true;
 
-  const isEnabled = workspace.plan === "enterprise";
+  const updateIps = trpc.apiSettings.updateIpWhitelist.useMutation({
+    onSuccess: (_data) => {
+      toast({
+        title: "Success",
+        description: "Your ip whitelist has been updated!",
+      });
+      router.refresh();
+    },
+    onError: (err, variables) => {
+      toast({
+        title: `Could not update ip whitelist on ApiId ${variables.apiId}`,
+        description: err.message,
+        variant: "alert",
+      });
+    },
+  });
 
   return (
     <form
@@ -57,7 +74,7 @@ export const UpdateIpWhitelist: React.FC<Props> = ({ api, workspace }) => {
       }}
     >
       <Card>
-        <CardHeader className={cn({ "opacity-40": !isEnabled })}>
+        <CardHeader className={cn({ "opacity-40": !whitelistingEnabledForWorkspace })}>
           <CardTitle>IP Whitelist</CardTitle>
           <CardDescription>
             Protect your keys from being verified by unauthorized sources. Enter your IP addresses
@@ -65,7 +82,7 @@ export const UpdateIpWhitelist: React.FC<Props> = ({ api, workspace }) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {workspace.plan === "enterprise" ? (
+          {whitelistingEnabledForWorkspace ? (
             <div className="flex flex-col space-y-2">
               <input type="hidden" name="workspaceId" value={api.workspaceId} />
               <input type="hidden" name="apiId" value={api.id} />
@@ -84,18 +101,20 @@ export const UpdateIpWhitelist: React.FC<Props> = ({ api, workspace }) => {
               <div>
                 <AlertTitle>Enterprise Feature</AlertTitle>
                 <AlertDescription>
-                  IP whitelists are only available on the enterprise plan.
+                  Contact us if you'd like IP whitelisting enabled on your plan.
                 </AlertDescription>
               </div>
               <Link href="mailto:support@unkey.dev">
-                <Button>Upgrade</Button>
+                <Button>Contact</Button>
               </Link>
             </Alert>
           )}
         </CardContent>
-        <CardFooter className={cn("justify-end", { "opacity-30 ": !isEnabled })}>
+        <CardFooter
+          className={cn("justify-end", { "opacity-30 ": !whitelistingEnabledForWorkspace })}
+        >
           <Button
-            variant={!isEnabled || pending ? "disabled" : "primary"}
+            variant={!whitelistingEnabledForWorkspace || pending ? "disabled" : "primary"}
             type="submit"
             disabled={pending}
           >
