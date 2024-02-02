@@ -636,8 +636,8 @@ function FrameworkSwitcher({
 const HighlightAbove: React.FC<{ className: string }> = ({ className }) => (
   <svg
     width="1086"
-    height="642"
-    viewBox="0 0 1086 642"
+    height="620"
+    viewBox="0 0 1086 620"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className={className}
