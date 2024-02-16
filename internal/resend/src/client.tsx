@@ -3,9 +3,11 @@ import { Resend as Client } from "resend";
 import { render } from "@react-email/render";
 import React from "react";
 import { PaymentIssue } from "../emails/payment_issue";
+import { SecretScanningKeyDetected } from "../emails/secret_scanning_key_detected";
 import { SubscriptionEnded } from "../emails/subscription_ended";
 import { TrialEnded } from "../emails/trial_ended";
 import { WelcomeEmail } from "../emails/welcome_email";
+
 export class Resend {
   public readonly client: Client;
   private readonly replyTo = "support@unkey.dev";
@@ -99,6 +101,26 @@ export class Resend {
       throw result.error;
     } catch (error) {
       console.error("Error occurred sending payment issue email ", JSON.stringify(error));
+    }
+  }
+
+  public async sendKeyDeletionEmail(req: { email: string }): Promise<void> {
+    const html = render(<SecretScanningKeyDetected />);
+    console.log(req.email);
+    try {
+      const result = await this.client.emails.send({
+        to: req.email,
+        from: "james@updates.unkey.dev",
+        reply_to: this.replyTo,
+        subject: "Unkey root key exposed in public Github repository",
+        html,
+      });
+      if (!result.error) {
+        return;
+      }
+      throw result.error;
+    } catch (error) {
+      console.error(error);
     }
   }
 }

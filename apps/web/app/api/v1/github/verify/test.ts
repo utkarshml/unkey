@@ -1,7 +1,7 @@
 async function main() {
   const WEBHOOK_PAYLOAD = [
     {
-      token: "unkey_xxxxxxxxxxxxxx",
+      token: "unkey_3Zji53gSycvTL7vJGiCoh7es",
       type: "unkey_root_key",
       url: "https://github.com/octocat/Hello-World/blob/12345600b9cbe38a219f39a9941c9319b600c002/foo/bar.txt",
       source: "content", // where it was found on Github: code, PR title, etc
