@@ -1,0 +1,187 @@
+import { AnalyticsBento } from "@/components/analytics/analytics-bento";
+import { AuditLogsBento } from "@/components/audit-logs-bento";
+import { PrimaryButton, SecondaryButton } from "@/components/button";
+import { FeatureGrid } from "@/components/feature/feature-grid";
+import { HashedKeysBento } from "@/components/hashed-keys-bento";
+import { IpWhitelistingBento } from "@/components/ip-whitelisting-bento";
+import { LatencyBento } from "@/components/latency-bento";
+import { OpenSource } from "@/components/open-source";
+import { RateLimitsBento } from "@/components/rate-limits-bento";
+// import { Stats } from "@/components/stats";
+import { FeatureGridChip } from "@/components/svg/feature-grid-chip";
+import {
+  SubHeroMainboardStuff,
+  TopLeftShiningLight,
+  TopRightShiningLight,
+} from "@/components/svg/hero";
+import { LeveledUpApiAuthChip } from "@/components/svg/leveled-up-api-auth-chip";
+import { OssLight } from "@/components/svg/oss-light";
+import { UsageBento } from "@/components/usage-bento";
+import { Hero } from "@/temp/app/hero";
+import { SectionTitle } from "@/temp/app/section-title";
+import { ChevronRight, LogIn } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+// import { Suspense } from "react";
+import mainboardMobile from "../images/mainboard-mobile.svg";
+import mainboard from "../images/mainboard.svg";
+import { CodeExamples } from "../temp/app/code-examples";
+
+export const metadata = {
+  title: "Unkey",
+  description: "Accelerate your API Development",
+  openGraph: {
+    title: "Unkey",
+    description: "Accelerate your API Development",
+    url: "https://unkey.dev/",
+    siteName: "unkey.dev",
+    images: [
+      {
+        url: "https://unkey.dev/og.png",
+        width: 1200,
+        height: 675,
+      },
+    ],
+  },
+  twitter: {
+    title: "Unkey",
+    card: "summary_large_image",
+  },
+  icons: {
+    shortcut: "/unkey.png",
+  },
+};
+
+export const revalidate = 300;
+
+export default function Landing() {
+  return (
+    <>
+      <TopRightShiningLight />
+      {/* TODO: horizontal scroll */}
+      <TopLeftShiningLight />
+      <Image
+        src={mainboard}
+        alt="Animated SVG showing computer circuits lighting up"
+        className="hidden md:flex w-full absolute right-0 top-[-140px] -z-10"
+        priority={true}
+      />
+
+      <Image
+        src={mainboardMobile}
+        alt="Animated SVG showing computer circuits lighting up"
+        className="flex md:hidden w-full absolute h-[300px] -z-10 "
+        priority={true}
+      />
+      <div className="container relative mx-auto">
+        {/* <MainboardMobile className="flex absolute md:hidden top-0 left-[-660px] top-[-300px] h-[700px]" /> */}
+        <Hero />
+        {/* TODO: horizontal scroll */}
+        <SubHeroMainboardStuff className="w-full absolute bottom-[-50px] left-[250px] pointer-events-none" />
+        <div className="mt-[200px]" />
+        {/* <Suspense fallback={null}>
+          <Stats />
+        </Suspense> */}
+
+        <CodeExamples className="mt-[144px] md:mt-[120px]" />
+        <div className="mt-[220px]" />
+        <OpenSource />
+        <SectionTitle
+          className="mt-[300px]"
+          title="Everything you need for your API"
+          titleWidth={743}
+          contentWidth={641}
+          text="Unkey makes it very simple for developers to build on top of your APIs. Realtime analytics, globally low latency, transparent billing."
+          align="center"
+          label="Platform"
+        />
+        <AnalyticsBento />
+        <div className="mt-6 grid xl:grid-cols-[1fr_2fr] gap-6 z-50">
+          <LatencyBento />
+          <UsageBento />
+        </div>
+        <div className="relative w-full -z-10">
+          <OssLight className="absolute left-[-70px] sm:left-[70px] md:left-[150px] lg:left-[200px] xl:left-[400px] top-[-200px]" />
+        </div>
+        <SectionTitle
+          className="mt-[300px]"
+          titleWidth={743}
+          contentWidth={581}
+          title="Secure and scalable from day one"
+          text="We give you crucial security features out of the box, so that you can focus on rapidly iterating on your API."
+          align="center"
+          label="Security"
+        >
+          <div className="flex mt-10 mb-10 space-x-6">
+            <Link href="/app" className="group">
+              <PrimaryButton IconLeft={LogIn} label="Get Started" className="h-10" />
+            </Link>
+
+            <Link href="/docs">
+              <SecondaryButton label="Visit the Docs" IconRight={ChevronRight} />
+            </Link>
+          </div>
+        </SectionTitle>
+        <div className="grid xl:grid-cols-[2fr_3fr] gap-6">
+          <HashedKeysBento />
+          <AuditLogsBento />
+        </div>
+        <div className="grid xl:grid-cols-[3fr_2fr] gap-6 relative z-50">
+          <IpWhitelistingBento />
+          <RateLimitsBento />
+        </div>
+        <div className="relative">
+          {/* TODO: horizontal scroll */}
+          <LeveledUpApiAuthChip className="absolute top-[-450px] right-[-100px]" />
+          <SectionTitle
+            className="mt-[400px] md:ml-10"
+            title="Leveled-up API management"
+            titleWidth={719}
+            contentWidth={557}
+            text="Elevate your API authentication with our leveled-up system. Experience heightened security, efficiency, and control for seamless integration and data protection."
+            label="More"
+          >
+            <div className="flex mt-10 mb-10 space-x-6">
+              <Link href="/app" className="group">
+                <PrimaryButton IconLeft={LogIn} label="Get Started" className="h-10" />
+              </Link>
+
+              <Link href="/docs">
+                <SecondaryButton label="Visit the Docs" IconRight={ChevronRight} />
+              </Link>
+            </div>
+          </SectionTitle>
+        </div>
+        <FeatureGrid className="relative z-50 mt-20" />
+        <div className="relative -z-10">
+          {/* TODO: horizontal scroll */}
+          <FeatureGridChip className="absolute top-[-90px]" />
+        </div>
+        <SectionTitle
+          align="center"
+          className="mt-[200px]"
+          title="Protect your API. Start today."
+          titleWidth={507}
+        >
+          <div className="flex space-x-6 ">
+            <Link
+              key="get-started"
+              href="/app"
+              className="flex items-center h-10 gap-2 px-4 font-medium text-black duration-150 bg-white border border-white rounded-lg shadow-md hover:text-white hover:bg-black"
+            >
+              Start Now <ChevronRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </SectionTitle>
+        <div className="mt-10 mb-[200px]">
+          <p className="w-full mx-auto text-sm leading-6 text-center text-white/60">
+            2500 verifications FREE per month.
+          </p>
+          <p className="w-full mx-auto text-sm leading-6 text-center text-white/60">
+            No CC required.
+          </p>
+        </div>
+      </div>
+    </>
+  );
+}
