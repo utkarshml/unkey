@@ -1,4 +1,4 @@
-import { SectionTitle } from "@/app/section-title";
+import { SectionTitle } from "@/temp/app/section-title";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
