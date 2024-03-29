@@ -41,17 +41,15 @@ type Props = {
 };
 
 export default async function Blog(props: Props) {
-  const posts = (await getAllMDXData({ contentPath: BLOG_PATH })).sort((a, b) => {
-    return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
-  });
+  const posts = await getAllMDXData({ contentPath: BLOG_PATH });
   const postTags: string[] = posts[0].frontmatter.tags?.toString().split(" ") || [];
   return (
     <>
-      <BlogContainer className="max-w-full mt-32 scroll-smooth">
+      <BlogContainer className="mt-32 max-w-full scroll-smooth">
         <div>
           <TopLeftShiningLight />
         </div>
-        <div className="w-full h-full overflow-clip -z-20">
+        <div className="-z-20 h-full w-full overflow-clip">
           <MeteorLinesAngular
             number={1}
             xPos={0}

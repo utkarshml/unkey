@@ -140,6 +140,14 @@ const getMoreContent = async ({
   return moreContentFiltered;
 };
 
+export const getAllPosts = async () => {
+  const allPosts = await getAllMDXData({ contentPath: BLOG_PATH });
+  const sorted = allPosts.sort((a, b) => {
+    return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
+  });
+  return sorted;
+};
+
 export const getAllMDXData = async ({
   contentPath,
 }: {
@@ -161,7 +169,10 @@ export const getAllMDXData = async ({
       };
     }),
   );
-  return allPostsData;
+  const sorted = allPostsData.sort((a, b) => {
+    return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
+  });
+  return sorted;
 };
 
 export const getContentData = async ({
