@@ -15,6 +15,7 @@ import {
   AccordionTriggerAbout,
 } from "@/components/ui/accordion";
 import { MeteorLines } from "@/components/ui/meteorLines";
+import { ImageGallery } from "./image-gallery";
 
 import { BlogCard } from "@/app/blog/blog-card";
 import { AboutLight } from "@/components/svg/about-light";
@@ -22,14 +23,12 @@ import { authors } from "@/content/blog/authors";
 import allison from "@/images/about/allison5.png";
 import bottomlight from "@/images/about/bottomlight.svg";
 import downlight from "@/images/about/down-light.svg";
-import placeholder from "@/images/about/landscape-placeholder.svg";
 import liu from "@/images/about/liujiang.jpeg";
 import sidelight from "@/images/about/side-light.svg";
 import tim from "@/images/about/tim.png";
 import andreas from "@/images/team/andreas.jpeg";
 import james from "@/images/team/james.jpg";
 import { BLOG_PATH, getAllMDXData } from "@/lib/mdx-helper";
-import { cn } from "@/lib/utils";
 
 export const metadata = {
   title: "About | Unkey",
@@ -144,83 +143,7 @@ export default async function Page() {
           contentWidth={640}
           text="We grew in number, and we love that. Here are some of our precious moments. Although we collaborate as a fully remote team, occasionally we unite!"
         />
-        <div className="grid about-image-grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-4 mt-[62px]">
-          <div className="image w-full md:w-[200px] h-[400px] rounded-lg relative">
-            <PhotoLabel
-              className="absolute bottom-[40px] left-[calc(50%-40px)]"
-              text="Label text"
-            />
-            <Image
-              src={placeholder}
-              alt="photo of a car"
-              className="object-cover w-full h-full rounded-lg"
-            />
-          </div>
-          <div className="image w-full md:w-[200px] h-[400px] rounded-lg">
-            <Image
-              src={placeholder}
-              alt="photo of a car"
-              className="object-cover w-full h-full rounded-lg"
-            />
-          </div>
-          <div className="image w-full md:w-[200px] h-[400px] rounded-lg">
-            <Image
-              src={placeholder}
-              alt="photo of a car"
-              className="object-cover w-full h-full rounded-lg"
-            />
-          </div>
-          <div className="image w-full md:w-[200px] h-[400px] rounded-lg">
-            <Image
-              src={placeholder}
-              alt="photo of a car"
-              className="object-cover w-full h-full rounded-lg"
-            />
-          </div>
-          <div className="image w-full md:w-[200px] h-[400px] rounded-lg">
-            <Image
-              src={placeholder}
-              alt="photo of a car"
-              className="object-cover w-full h-full rounded-lg"
-            />
-          </div>
-          <div className="image w-full md:w-[200px] h-[400px] rounded-lg">
-            <Image
-              src={placeholder}
-              alt="photo of a car"
-              className="object-cover w-full h-full rounded-lg"
-            />
-          </div>
-          <div className="image w-full md:w-[200px] h-[400px] rounded-lg">
-            <Image
-              src={placeholder}
-              alt="photo of a car"
-              className="object-cover w-full h-full rounded-lg"
-            />
-          </div>
-          <div className="image w-full md:w-[200px] h-[400px] rounded-lg">
-            <Image
-              src={placeholder}
-              alt="photo of a car"
-              className="object-cover w-full h-full rounded-lg"
-            />
-          </div>
-          <div className="image w-full md:w-[200px] h-[400px] rounded-lg">
-            <Image
-              src={placeholder}
-              alt="photo of a car"
-              className="object-cover w-full h-full rounded-lg"
-            />
-          </div>
-          <div className="image w-full md:w-[200px] h-[400px] hidden md:block xl:hidden bg-black rounded-lg" />
-          <div className="image w-full md:w-[200px] h-[400px] rounded-lg">
-            <Image
-              src={placeholder}
-              alt="photo of a car"
-              className="object-cover w-full h-full rounded-lg"
-            />
-          </div>
-        </div>
+        <ImageGallery />
 
         <div className="relative w-screen max-w-full">
           <Image src={sidelight} alt="lightbeam effect" className="absolute right-[-300px]" />
@@ -403,18 +326,5 @@ export default async function Page() {
         className="absolute bottom-[-90px] scale-[1.5] left-[0px] lg:bottom-[-280px] lg:left-[270px]"
       />
     </Container>
-  );
-}
-
-function PhotoLabel({ text, className }: { text: string; className: string }) {
-  return (
-    <div
-      className={cn(
-        className,
-        "bg-gradient-to-r from-black/70 to-black/40 px-4 py-1.5 rounded-[6px] backdrop-blur-md border-[0.75px] border-white/20",
-      )}
-    >
-      <p className="text-xs text-white">{text}</p>
-    </div>
   );
 }
