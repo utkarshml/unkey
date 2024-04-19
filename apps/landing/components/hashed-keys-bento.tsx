@@ -11,7 +11,7 @@ export function HashedKeysBento() {
 
 export function HashedKeysText() {
   return (
-    <div className="flex flex-col text-white absolute left-[20px] sm:left-[40px] xl:left-[40px] bottom-[40px] max-w-[350px]">
+    <div className="flex flex-col text-white absolute left-[20px] sm:left-[40px] bottom-[40px] max-w-[350px]">
       <div className="flex items-center w-full">
         <div className="hashed-keys-bg-gradient">
           <svg

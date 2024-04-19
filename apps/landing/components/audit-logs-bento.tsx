@@ -2,7 +2,7 @@ import { AuditLogs } from "@/components/audit/audit-logs";
 
 export function AuditLogsBento() {
   return (
-    <div className="relative group no-scrollbar overflow-hidden w-full xl:mt-10  border-[.75px] h-[520px] rounded-[32px] border-[#ffffff]/10 flex overflow-x-hidden bg-gradient-to-br from-white/10 to-black">
+    <div className="relative group no-scrollbar overflow-hidden w-full  border-[.75px] h-[520px] rounded-[32px] border-[#ffffff]/10 flex overflow-x-hidden bg-gradient-to-br from-white/10 to-black">
       <AuditLogs className=" sm:h-[400px] w-full sm:ml-[40px]" />
       <div className="absolute inset-0 w-full h-full duration-500 pointer-events-none bg-gradient-to-tr from-black via-black/40 to-black/0 group-hover:opacity-0 group-hover:backdrop-blur-0" />
       <div className="duration-500 group-hover:opacity-0 group-hover:pointer-events-none">
@@ -14,7 +14,7 @@ export function AuditLogsBento() {
 
 export function AuditLogsText() {
   return (
-    <div className="flex flex-col text-white absolute left-[20px] sm:left-[40px] xl:left-[40px] bottom-[40px] max-w-[350px]">
+    <div className="flex flex-col text-white absolute left-[20px] sm:left-[40px] bottom-[40px] max-w-[350px]">
       <div className="flex items-center w-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"

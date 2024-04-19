@@ -61,7 +61,7 @@ export default async function Landing() {
           <Image
             src={mainboard}
             alt="Animated SVG showing computer circuits lighting up"
-            className="absolute inset-x-0 flex  xl:hidden -z-10 scale-[2]"
+            className="absolute inset-x-0 flex -z-10 scale-[2]"
             priority
           />
         </div>
@@ -96,7 +96,7 @@ export default async function Landing() {
             </div>
           </Section>
           <div className="relative w-full -z-10 ">
-            <OssLight className="absolute scale-[2] left-[-70px] sm:left-[70px] md:left-[150px] lg:left-[200px] xl:left-[420px] top-[-250px]" />
+            <OssLight className="absolute scale-[2] left-[-70px] sm:left-[70px] md:left-[150px] lg:left-[200px] top-[-250px]" />
           </div>
 
           <Section className="mt-16 md:mt-32">
@@ -116,12 +116,12 @@ export default async function Landing() {
                 </Link>
               </div>
             </SectionTitle>
-            <div className="grid xl:grid-cols-[2fr_3fr] gap-6">
+            <div className="grid gap-6">
               <HashedKeysBento />
               <AuditLogsBento />
             </div>
 
-            <div className="grid md:grid-cols-[1fr_1fr] xl:grid-cols-[3fr_2fr] gap-6 relative z-50">
+            <div className="grid md:grid-cols-[1fr_1fr] gap-6 relative z-50">
               <IpWhitelistingBento />
               <RateLimitsBento />
             </div>
@@ -131,7 +131,7 @@ export default async function Landing() {
               {/* TODO: horizontal scroll */}
               <LeveledUpApiAuthChip className="absolute top-[-450px] right-[-150px] lg:right-[880px]" />
               <SectionTitle
-                className="mt-8 md:mt-16 lg:mt-32 xl:mt-48"
+                className="mt-8 md:mt-16 lg:mt-32"
                 title="Leveled-up API management"
                 text="With enhanced security, low latency, and better control, you can seamlessly integrate into your APIs and protect your data like never before."
                 label="Features"

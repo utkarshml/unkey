@@ -12,7 +12,7 @@ export function IpWhitelistingBento() {
 
 export function IpWhitelistingText() {
   return (
-    <div className="flex flex-col text-white absolute left-[20px] sm:left-[40px] xl:left-[40px] bottom-[40px] max-w-[350px]">
+    <div className="flex flex-col text-white absolute left-[20px] sm:left-[40px] bottom-[40px] max-w-[350px]">
       <div className="flex items-center w-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"

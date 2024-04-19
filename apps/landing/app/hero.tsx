@@ -26,7 +26,7 @@ export const Hero: React.FC = () => {
 
   return (
     <motion.div
-      className="relative flex flex-col items-center justify-between mt-48 xl:flex-row xl:items-start"
+      className="relative flex flex-col items-center justify-between mt-48"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -38,7 +38,7 @@ export const Hero: React.FC = () => {
         <Image
           src={mainboard}
           alt="Animated SVG showing computer circuits lighting up"
-          className="absolute hidden xl:right-32 xl:flex -z-10 xl:-top-56"
+          className="absolute hidden -z-10"
           style={{ transform: "scale(2)" }}
           priority
         />

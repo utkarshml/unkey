@@ -8,7 +8,7 @@ export function YoutubeEmbed() {
   const [toggler, setToggler] = useState(false);
 
   return (
-    <div className="rounded-[38px] bg-white/5 border border-gray-800/40 z-10 mt-16 xl:mt-0 group">
+    <div className="rounded-[38px] bg-white/5 border border-gray-800/40 z-10 mt-16 group">
       <div className="m-[10px] rounded-[28px] flex items-center justify-center">
         <div className="flex items-center justify-center">
           <button

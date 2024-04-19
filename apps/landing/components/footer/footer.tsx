@@ -87,8 +87,8 @@ const Column: React.FC<{ title: string; links: Array<NavLink>; className?: strin
 export function Footer() {
   return (
     <div className="border-t border-white/20 blog-footer-radial-gradient">
-      <footer className="container relative grid grid-cols-2 gap-8 pt-8 mx-auto overflow-hidden lg:gap-16 sm:grid-cols-3 xl:grid-cols-5 sm:pt-12 md:pt-16 lg:pt-24 xl:pt-32">
-        <div className="flex flex-col items-center col-span-2 sm:items-start sm:col-span-3 xl:col-span-2">
+      <footer className="container relative grid grid-cols-2 gap-8 pt-8 mx-auto overflow-hidden lg:gap-16 sm:grid-cols-3 sm:pt-12 md:pt-16 lg:pt-24">
+        <div className="flex flex-col items-center col-span-2 sm:items-start sm:col-span-3">
           <UnkeyLogo />
           <div className="mt-8 text-sm font-normal leading-6 text-white/60">
             Build better APIs faster.

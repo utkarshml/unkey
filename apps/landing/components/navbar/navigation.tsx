@@ -134,7 +134,7 @@ function MobileLinks({ className }: { className?: string }) {
 }
 
 const DesktopLinks: React.FC<{ className: string }> = ({ className }) => (
-  <ul className={cn("items-center hidden gap-8 lg:flex xl:gap-12", className)}>
+  <ul className={cn("items-center hidden gap-8 lg:flex", className)}>
     <DesktopNavLink href="/about" label="About" />
     <DesktopNavLink href="/blog" label="Blog" />
     <DesktopNavLink href="/pricing" label="Pricing" />

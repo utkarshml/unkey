@@ -68,7 +68,7 @@ export function AnalyticsBento() {
         />
       </div>
 
-      <div className="relative mt-[80px] w-full h-[640px] analytics-linear-gradient flex justify-center xl:justify-start items-end border rounded-3xl border border-white/10 relative">
+      <div className="relative mt-[80px] w-full h-[640px] analytics-linear-gradient flex justify-center items-end border rounded-3xl border border-white/10 relative">
         {/* TODO: horizontal scroll */}
         <LightSvg className="absolute hidden md:flex top-[-180px] left:0 lg:left-[300px] z-50 pointer-events-none" />
         <AnalyticsStars className="w-[90px] shrink-0 hidden md:flex" />
@@ -89,7 +89,7 @@ function AnalyticsApiView() {
       whileInView="visible"
       className="w-full overflow-x-hidden"
     >
-      <div className="w-full analytics-background-gradient bg-black bg-opacity-02 lg:w-[1220px] lg:rounded-3xl  xxl:mr-10 overflow-x-hidden overflow-y-hidden border-white/10 border border-b-0 border-l-0  border-r-0 flex-col md:flex-row relative rounded-tl-3xl h-[600px] xl:h-[576px] flex">
+      <div className="w-full analytics-background-gradient bg-black bg-opacity-02 lg:w-[1220px] lg:rounded-3xl overflow-x-hidden overflow-y-hidden border-white/10 border border-b-0 border-l-0  border-r-0 flex-col md:flex-row relative rounded-tl-3xl h-[600px] flex">
         <div className="flex flex-col w-[216px] text-white text-sm pt-6 px-4 font-mono md:border-r md:border-white/5">
           <div className="flex items-center cursor-pointer bg-white/5 py-1 px-2 rounded-lg w-[184px]">
             <TerminalIcon className="w-6 h-6" />
@@ -335,7 +335,7 @@ function AnalyticsWebAppView() {
       whileInView="visible"
       className="w-full overflow-x-hidden"
     >
-      <div className="w-full bg-[#000000] lg:w-[1220px] analytics-background-gradient lg:rounded-2xl relative flex-wrap md:flex-nowrap cursor-default select-none bg-opacity-02 xxl:mr-10 overflow-x-hidden overflow-y-hidden border-white/10 border border-b-0 border-l-0  border-r-0 flex-col md:flex-row relative rounded-tl-3xl h-[600px] xl:h-[576px] flex">
+      <div className="w-full bg-[#000000] lg:w-[1220px] analytics-background-gradient lg:rounded-2xl relative flex-wrap md:flex-nowrap cursor-default select-none bg-opacity-02 overflow-x-hidden overflow-y-hidden border-white/10 border border-b-0 border-l-0  border-r-0 flex-col md:flex-row relative rounded-tl-3xl h-[600px] flex">
         <WebAppLight className="absolute top-[-100px] left-[40px]" />
         <div className="flex flex-col rounded-2xl w-[216px] h-full text-white/20  text-xs pt-6 px-4 md:border-r md:border-white/5">
           <div className="flex justify-between items-center w-[160px]">
@@ -789,7 +789,7 @@ export function TerminalIcon({ className }: { className?: string }) {
 
 export function BentoText() {
   return (
-    <div className="flex flex-col text-white absolute left-[20px] sm:left-[40px] xl:left-[40px] bottom-[40px] max-w-[286px]">
+    <div className="flex flex-col text-white absolute left-[20px] sm:left-[40px] bottom-[40px] max-w-[286px]">
       <div className="flex items-center w-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"

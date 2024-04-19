@@ -1,6 +1,6 @@
 export function RateLimitsBento() {
   return (
-    <div className="w-full xl:mt-5 relative border-[.75px] h-[520px] rounded-[32px] border-[#ffffff]/10 flex overflow-x-hidden rate-limits-background-gradient bg-gradient-to-t backdrop-blur-[1px] from-black/20 via-black/20 via-20% to-transparent">
+    <div className="w-full relative border-[.75px] h-[520px] rounded-[32px] border-[#ffffff]/10 flex overflow-x-hidden rate-limits-background-gradient bg-gradient-to-t backdrop-blur-[1px] from-black/20 via-black/20 via-20% to-transparent">
       <RateLimits />
       <RateLimitsText />
     </div>
@@ -213,7 +213,7 @@ export function RateLimits() {
 
 export function RateLimitsText() {
   return (
-    <div className="flex flex-col text-white absolute left-[20px] sm:left-[40px] xl:left-[40px] bottom-[40px] max-w-[350px]">
+    <div className="flex flex-col text-white absolute left-[20px] sm:left-[40px] bottom-[40px] max-w-[350px]">
       <div className="flex items-center w-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"
