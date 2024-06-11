@@ -1,7 +1,8 @@
 import { db } from "@/lib/db";
 // import { env } from "@/lib/env";
 // import { ingestAuditLogs } from "@/lib/tinybird";
-import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import { generateRandomSubdomain } from "@/lib/utils";
 // import { AesGCM } from "@unkey/encryption";
 import { newId } from "@unkey/id";
 import { z } from "zod";
@@ -11,7 +12,7 @@ export const createGateway = t.procedure
   .use(auth)
   .input(
     z.object({
-      subdomain: z.string().min(1).max(50),
+      subdomain: z.string().min(1).max(50).optional().default(""),
       origin: z
         .string()
         .url()
@@ -27,10 +28,16 @@ export const createGateway = t.procedure
   )
   .mutation(async ({ ctx }) => {
     const ws = await db.query.workspaces.findFirst({
+    let subdomain = input.subdomain;
+    if (!subdomain) {
+      // Generate a random subdomain if not provided
+      subdomain = await generateRandomSubdomain(db);
+    }
+
       where: (table, { and, eq, isNull }) =>
         and(eq(table.tenantId, ctx.tenant.id), isNull(table.deletedAt)),
     });
-    if (!ws) {
+      name: subdomain,
       throw new TRPCError({
         code: "NOT_FOUND",
         message: "workspace not found",
