@@ -37,12 +37,12 @@ export default async function ApiPage(props: {
     {
       label: "Keys",
       href: `/keys/${keyAuth.id}`,
-      segment: null,
+      segment: "keys",
     },
     {
       label: "API",
       href: `/apis/${keyAuth.api.id}`,
-      segment: null,
+      segment: "apis",
     },
   ];
 
