@@ -11,7 +11,9 @@ import { Keys } from "./keys";
 export const dynamic = "force-dynamic";
 export const runtime = "edge";
 
-export default async function ApiPage(props: { params: { apiId: string; keyAuthId: string } }) {
+export default async function ApiPage(props: {
+  params: { apiId: string; keyAuthId: string };
+}) {
   const tenantId = getTenantId();
 
   const keyAuth = await db.query.keyAuth.findFirst({
@@ -33,9 +35,14 @@ export default async function ApiPage(props: { params: { apiId: string; keyAuthI
       segment: null,
     },
     {
+      label: "Keys",
+      href: `/key-auths/${keyAuth.id}`,
+      segment: "settings",
+    },
+    {
       label: "API",
       href: `/apis/${keyAuth.api.id}`,
-      segment: "settings",
+      segment: null,
     },
   ];
 
