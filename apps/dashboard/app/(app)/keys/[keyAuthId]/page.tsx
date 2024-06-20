@@ -31,13 +31,13 @@ export default async function ApiPage(props: {
   const navigation = [
     {
       label: "Overview",
-      href: `/keys/${keyAuth.id}`,
+      href: `/apis/${keyAuth.api.id}`,
       segment: null,
     },
     {
       label: "Keys",
-      href: `/key-auths/${keyAuth.id}`,
-      segment: "settings",
+      href: `/keys/${keyAuth.id}`,
+      segment: null,
     },
     {
       label: "API",
