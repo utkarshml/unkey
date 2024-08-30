@@ -3,7 +3,13 @@ import { EmptyPlaceholder } from "@/components/dashboard/empty-placeholder";
 import { Loading } from "@/components/dashboard/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +27,13 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -32,8 +44,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { toast } from "@/components/ui/toaster";
-import type { ClerkError } from "@/lib/clerk";
-import { useClerk, useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronsUp, MoreHorizontal, ShieldCheck, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -48,7 +58,6 @@ const verificationSchema = z.object({
 });
 
 export const UpdateUserEmail: React.FC = () => {
-  const { user } = useUser();
   const [sendingVerification, setSendingVerification] = useState(false);
   const [resetPointerEvents, setResetPointerEvents] = useState(false);
   const [promotingEmail, setPromotingEmail] = useState(false);
@@ -58,7 +67,7 @@ export const UpdateUserEmail: React.FC = () => {
     resolver: zodResolver(formSchema),
     mode: "all",
     defaultValues: {
-      email: user?.primaryEmailAddress?.emailAddress ?? "",
+      email: "",
     },
   });
 
@@ -71,17 +80,10 @@ export const UpdateUserEmail: React.FC = () => {
     }
   }, [resetPointerEvents]);
 
-  if (!user) {
-    return (
-      <EmptyPlaceholder className="min-h-[200px]">
-        <Loading />
-      </EmptyPlaceholder>
-    );
-  }
-  const isDisabled = emailForm.formState.isLoading || !emailForm.formState.isValid;
-  const verifiedEmails = user.emailAddresses.filter(
-    (email) => email.verification.status === "verified",
-  ).length;
+  const isDisabled =
+    emailForm.formState.isLoading || !emailForm.formState.isValid;
+  //todo: find verifiedEmails from Lucia
+  const verifiedEmails = ["james@unkey.dev"];
 
   return (
     <>
@@ -100,8 +102,14 @@ export const UpdateUserEmail: React.FC = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {user.emailAddresses?.map(
-                ({ id, emailAddress, verification, destroy, prepareVerification }) => (
+              {/* {user.emailAddresses?.map(
+                ({
+                  id,
+                  emailAddress,
+                  verification,
+                  destroy,
+                  prepareVerification,
+                }) => (
                   <TableRow key={id}>
                     <TableCell>{emailAddress}</TableCell>
                     <TableCell>
@@ -114,7 +122,11 @@ export const UpdateUserEmail: React.FC = () => {
                     <TableCell>
                       <Badge
                         size="sm"
-                        variant={verification.status === "verified" ? "secondary" : "alert"}
+                        variant={
+                          verification.status === "verified"
+                            ? "secondary"
+                            : "alert"
+                        }
                         className="capitalize"
                       >
                         {verification.status}
@@ -137,7 +149,8 @@ export const UpdateUserEmail: React.FC = () => {
                               <DialogTrigger asChild>
                                 <DropdownMenuItem
                                   disabled={
-                                    verifiedEmails <= 1 && verification.status === "verified"
+                                    verifiedEmails <= 1 &&
+                                    verification.status === "verified"
                                   }
                                   onClick={(e) => {
                                     e.preventDefault();
@@ -154,7 +167,8 @@ export const UpdateUserEmail: React.FC = () => {
                                 <DialogHeader>
                                   <DialogTitle>Remove Email</DialogTitle>
                                   <DialogDescription>
-                                    Are you sure you want to remove {emailAddress}?
+                                    Are you sure you want to remove{" "}
+                                    {emailAddress}?
                                   </DialogDescription>
                                 </DialogHeader>
 
@@ -179,13 +193,14 @@ export const UpdateUserEmail: React.FC = () => {
                                 </DialogFooter>
                               </DialogContent>
                             </Dialog>
+
+                            //TODO: Set email to primary if they user wants it
                             <DropdownMenuItem
-                              disabled={user.primaryEmailAddress?.id === id}
+                              disabled={false}
                               onClick={async () => {
                                 try {
                                   setPromotingEmail(true);
-                                  await user.update({ primaryEmailAddressId: id });
-                                  user.reload();
+                                  console.log("new email");
                                 } catch (e) {
                                   toast.error((e as Error).message);
                                 } finally {
@@ -208,9 +223,8 @@ export const UpdateUserEmail: React.FC = () => {
                               onClick={async () => {
                                 try {
                                   setSendingVerification(true);
-                                  await prepareVerification({
-                                    strategy: "email_code",
-                                  });
+
+                                  //send verification again.
                                   setVerifyEmail(emailAddress);
                                 } catch (e) {
                                   toast.error((e as Error).message);
@@ -233,8 +247,9 @@ export const UpdateUserEmail: React.FC = () => {
                       </DropdownMenu>
                     </TableCell>
                   </TableRow>
-                ),
+                )
               )}
+              */}
             </TableBody>
           </Table>
         </CardContent>
@@ -244,16 +259,14 @@ export const UpdateUserEmail: React.FC = () => {
               onSubmit={emailForm.handleSubmit(async ({ email }) => {
                 try {
                   setSendingVerification(true);
-                  const emailResponse = await user.createEmailAddress({ email });
-
-                  await emailResponse.prepareVerification({
-                    strategy: "email_code",
-                  });
+                  // TODO: Send email to user
+                  const emailResponse = console.log("email user");
 
                   setVerifyEmail(email);
                 } catch (e) {
                   toast.error(
-                    (e as ClerkError)?.errors.at(0)?.longMessage ?? "Error creating email address",
+                    "Error doing something"
+                    //(e as ClerkError)?.errors.at(0)?.longMessage ?? "Error creating email address",
                   );
                 } finally {
                   setSendingVerification(false);
@@ -267,7 +280,11 @@ export const UpdateUserEmail: React.FC = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input {...field} className="max-w-md min-w-md" placeholder="Add new email" />
+                      <Input
+                        {...field}
+                        className="max-w-md min-w-md"
+                        placeholder="Add new email"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -276,10 +293,16 @@ export const UpdateUserEmail: React.FC = () => {
 
               <Button
                 type="submit"
-                variant={isDisabled || sendingVerification ? "disabled" : "primary"}
+                variant={
+                  isDisabled || sendingVerification ? "disabled" : "primary"
+                }
                 disabled={isDisabled || sendingVerification}
               >
-                {emailForm.formState.isLoading || sendingVerification ? <Loading /> : "Save"}
+                {emailForm.formState.isLoading || sendingVerification ? (
+                  <Loading />
+                ) : (
+                  "Save"
+                )}
               </Button>
             </form>
           </Form>
@@ -295,7 +318,9 @@ export const UpdateUserEmail: React.FC = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Verify your email</DialogTitle>
-            <DialogDescription>We have sent a code to your email</DialogDescription>
+            <DialogDescription>
+              We have sent a code to your email
+            </DialogDescription>
           </DialogHeader>
 
           <VerificationForm
@@ -303,7 +328,6 @@ export const UpdateUserEmail: React.FC = () => {
             onSuccess={() => {
               setVerifyEmail(null);
               emailForm.reset();
-              user.reload();
             }}
           />
         </DialogContent>
@@ -317,28 +341,30 @@ type VerificationFormProps = {
   onSuccess: () => void;
 };
 
-const VerificationForm: React.FC<VerificationFormProps> = ({ email, onSuccess }) => {
-  const { user } = useClerk();
+const VerificationForm: React.FC<VerificationFormProps> = ({
+  email,
+  onSuccess,
+}) => {
   const verificationForm = useForm<z.infer<typeof verificationSchema>>({
     resolver: zodResolver(verificationSchema),
     mode: "onSubmit",
   });
-  if (!user) {
-    return null;
-  }
+  //TODO: Check if there is a user here
   return (
     <Form {...verificationForm}>
       <form
         onSubmit={verificationForm.handleSubmit(async ({ code }) => {
           try {
-            const emailResource = user.emailAddresses.find((e) => e.emailAddress === email);
+            //TODO: Set email and check against Lucia
+            const emailResource = "fakeemail@email.com";
             if (!emailResource) {
               throw new Error("Invalid email");
             }
-            const verify = await emailResource.attemptVerification({ code });
-            if (verify.verification.status !== "verified") {
-              throw new Error("Invalid verification code");
-            }
+            // Attempt to verify
+            // const verify = await emailResource.attemptVerification({ code });
+            // if (verify.verification.status !== "verified") {
+            //   throw new Error("Invalid verification code");
+            // }
 
             onSuccess();
           } catch (e) {
@@ -369,7 +395,9 @@ const VerificationForm: React.FC<VerificationFormProps> = ({ email, onSuccess })
           </div>
           <Button
             type="submit"
-            variant={verificationForm.formState.isLoading ? "disabled" : "primary"}
+            variant={
+              verificationForm.formState.isLoading ? "disabled" : "primary"
+            }
             disabled={verificationForm.formState.isLoading}
           >
             {verificationForm.formState.isLoading ? <Loading /> : "Verify"}

@@ -1,12 +1,23 @@
 "use client";
 import { Loading } from "@/components/dashboard/loading";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toaster";
 import { trpc } from "@/lib/trpc/client";
-import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -28,7 +39,6 @@ type Props = {
 
 export const UpdateWorkspaceName: React.FC<Props> = ({ workspace }) => {
   const router = useRouter();
-  const { user } = useUser();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "all",
@@ -42,7 +52,6 @@ export const UpdateWorkspaceName: React.FC<Props> = ({ workspace }) => {
   const updateName = trpc.workspace.updateName.useMutation({
     onSuccess() {
       toast.success("Workspace name updated");
-      user?.reload();
       router.refresh();
     },
     onError(err) {
@@ -71,14 +80,20 @@ export const UpdateWorkspaceName: React.FC<Props> = ({ workspace }) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input {...field} className="max-w-sm" defaultValue={workspace.name} />
+                      <Input
+                        {...field}
+                        className="max-w-sm"
+                        defaultValue={workspace.name}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <p className="text-xs text-content-subtle">What should your workspace be called?</p>
+              <p className="text-xs text-content-subtle">
+                What should your workspace be called?
+              </p>
             </div>
           </CardContent>
           <CardFooter className="justify-end">

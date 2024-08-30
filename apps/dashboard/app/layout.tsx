@@ -3,7 +3,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { PHProvider, PostHogPageview } from "@/providers/PostHogProvider";
 import "@/styles/tailwind/tailwind.css";
-import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
@@ -66,25 +65,14 @@ export default function RootLayout({
       <PHProvider>
         <body>
           <Toaster />
-          <ClerkProvider
-            afterSignInUrl="/"
-            afterSignUpUrl="/new"
-            appearance={{
-              variables: {
-                colorPrimary: "#5C36A3",
-                colorText: "#5C36A3",
-              },
-            }}
-          >
-            <ReactQueryProvider>
-              <ThemeProvider attribute="class">
-                <TooltipProvider>
-                  {children}
-                  <CommandMenu />
-                </TooltipProvider>
-              </ThemeProvider>
-            </ReactQueryProvider>
-          </ClerkProvider>
+          <ReactQueryProvider>
+            <ThemeProvider attribute="class">
+              <TooltipProvider>
+                {children}
+                <CommandMenu />
+              </TooltipProvider>
+            </ThemeProvider>
+          </ReactQueryProvider>
         </body>
       </PHProvider>
     </html>

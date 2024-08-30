@@ -14,6 +14,7 @@ import { CreateRatelimit } from "./create-ratelimit";
 import { CreateSemanticCacheButton } from "./create-semantic-cache";
 import { CreateWorkspace } from "./create-workspace";
 import { Keys } from "./keys";
+import { getTenantId } from "@/lib/auth";
 
 type Props = {
   searchParams: {
@@ -25,7 +26,7 @@ type Props = {
 };
 
 export default async function (props: Props) {
-  const { userId } = auth();
+  const tenantId = getTenantId();
 
   if (props.searchParams.apiId) {
     const api = await db.query.apis.findFirst({
@@ -59,7 +60,10 @@ export default async function (props: Props) {
   if (props.searchParams.workspaceId && !props.searchParams.product) {
     const workspace = await db.query.workspaces.findFirst({
       where: (table, { and, eq, isNull }) =>
-        and(eq(table.id, props.searchParams.workspaceId!), isNull(table.deletedAt)),
+        and(
+          eq(table.id, props.searchParams.workspaceId!),
+          isNull(table.deletedAt)
+        ),
     });
     if (!workspace) {
       return redirect("/new");
@@ -108,7 +112,9 @@ export default async function (props: Props) {
               <div className="flex items-center justify-center p-4 border rounded-lg bg-primary/5">
                 <GlobeLock className="w-6 h-6 text-primary" />
               </div>
-              <h4 className="text-lg font-medium">I want to ratelimit something</h4>
+              <h4 className="text-lg font-medium">
+                I want to ratelimit something
+              </h4>
               <p className="text-sm text-content-subtle">
                 Global low latency ratelimiting for your application.
               </p>
@@ -131,11 +137,14 @@ export default async function (props: Props) {
               </div>
               <h4 className="text-lg font-medium">I want to cache an LLM</h4>
               <p className="text-sm text-content-subtle">
-                Faster, cheaper LLM API calls through re-using semantically similar previous
-                responses.
+                Faster, cheaper LLM API calls through re-using semantically
+                similar previous responses.
               </p>
               <ol className="ml-2 space-y-1 text-sm list-decimal list-outside text-content-subtle">
-                <li>You switch out the baseUrl in your requests to OpenAI with your gateway URL</li>
+                <li>
+                  You switch out the baseUrl in your requests to OpenAI with
+                  your gateway URL
+                </li>
                 <li>Unkey will automatically start caching your responses</li>
                 <li>Monitor and track your cache usage here</li>
               </ol>
@@ -150,7 +159,10 @@ export default async function (props: Props) {
   if (props.searchParams.product === "keys") {
     const workspace = await db.query.workspaces.findFirst({
       where: (table, { and, eq, isNull }) =>
-        and(eq(table.id, props.searchParams.workspaceId!), isNull(table.deletedAt)),
+        and(
+          eq(table.id, props.searchParams.workspaceId!),
+          isNull(table.deletedAt)
+        ),
     });
     if (!workspace) {
       return redirect("/new");
@@ -180,7 +192,10 @@ export default async function (props: Props) {
   if (props.searchParams.product === "ratelimit") {
     const workspace = await db.query.workspaces.findFirst({
       where: (table, { and, eq, isNull }) =>
-        and(eq(table.id, props.searchParams.workspaceId!), isNull(table.deletedAt)),
+        and(
+          eq(table.id, props.searchParams.workspaceId!),
+          isNull(table.deletedAt)
+        ),
     });
     if (!workspace) {
       return redirect("/new");
@@ -207,10 +222,10 @@ export default async function (props: Props) {
       </div>
     );
   }
-  if (userId) {
+  if (tenantId) {
     const personalWorkspace = await db.query.workspaces.findFirst({
       where: (table, { and, eq, isNull }) =>
-        and(eq(table.tenantId, userId), isNull(table.deletedAt)),
+        and(eq(table.tenantId, tenantId), isNull(table.deletedAt)),
     });
 
     // if no personal workspace exists, we create one
@@ -218,7 +233,7 @@ export default async function (props: Props) {
       const workspaceId = newId("workspace");
       await db.insert(schema.workspaces).values({
         id: workspaceId,
-        tenantId: userId,
+        tenantId: tenantId,
         name: "Personal",
         plan: "free",
         stripeCustomerId: null,
@@ -233,7 +248,7 @@ export default async function (props: Props) {
         event: "workspace.create",
         actor: {
           type: "user",
-          id: userId,
+          id: tenantId,
         },
         description: `Created ${workspaceId}`,
         resources: [
@@ -245,7 +260,10 @@ export default async function (props: Props) {
 
         context: {
           userAgent: headers().get("user-agent") ?? undefined,
-          location: headers().get("x-forwarded-for") ?? process.env.VERCEL_REGION ?? "unknown",
+          location:
+            headers().get("x-forwarded-for") ??
+            process.env.VERCEL_REGION ??
+            "unknown",
         },
       });
 

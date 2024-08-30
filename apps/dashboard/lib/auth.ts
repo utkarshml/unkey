@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 /**
@@ -7,6 +6,8 @@ import { redirect } from "next/navigation";
  * The auth check should already be done at a higher level, and we're just returning 404 to make typescript happy.
  */
 export function getTenantId(): string {
-  const { userId, orgId } = auth();
+  // TODO: Add Lucia Check
+  const userId = "user_2SORPfL5Q6STmGwrhaY9AuqcHIB";
+  const orgId = "org_2j9I4mEcGo1CkEbhizGcOsa1ITW";
   return orgId ?? userId ?? redirect("/auth/sign-in");
 }

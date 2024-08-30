@@ -2,10 +2,14 @@
 import { EmptyPlaceholder } from "@/components/dashboard/empty-placeholder";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { PostHogIdentify } from "@/providers/PostHogProvider";
-import { useUser } from "@clerk/nextjs";
 import { BookOpen, Code, Search } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -19,16 +23,12 @@ type ApiWithKeys = {
 }[];
 
 export function ApiList({ apis }: { apis: ApiWithKeys }) {
-  const { user, isLoaded } = useUser();
   useEffect(() => {
     if (apis.length) {
       setLocalData(apis);
     }
   }, [apis]);
   const [localData, setLocalData] = useState(apis);
-  if (isLoaded && user) {
-    PostHogIdentify({ user });
-  }
   return (
     <div>
       <PageHeader title="Applications" description="Manage your APIs" />
@@ -41,7 +41,7 @@ export function ApiList({ apis }: { apis: ApiWithKeys }) {
             placeholder="Search.."
             onChange={(e) => {
               const filtered = apis.filter((a) =>
-                a.name.toLowerCase().includes(e.target.value.toLowerCase()),
+                a.name.toLowerCase().includes(e.target.value.toLowerCase())
               );
               setLocalData(filtered);
             }}
@@ -63,7 +63,9 @@ export function ApiList({ apis }: { apis: ApiWithKeys }) {
                 <CardContent>
                   <dl className="divide-y divide-gray-100 text-sm leading-6 ">
                     <div className="flex justify-between gap-x-4 py-3">
-                      <dt className="text-gray-500 dark:text-gray-400">API Keys</dt>
+                      <dt className="text-gray-500 dark:text-gray-400">
+                        API Keys
+                      </dt>
                       <dd className="flex items-start gap-x-2">
                         <div className="font-medium text-gray-900 dark:text-gray-200">
                           {api.keys.at(0)?.count ?? 0}
@@ -88,7 +90,10 @@ export function ApiList({ apis }: { apis: ApiWithKeys }) {
           <div className="flex flex-col items-center justify-center gap-2 md:flex-row">
             <CreateApiButton key="createApi" className="" />
             <Link href="/docs" target="_blank">
-              <Button variant="secondary" className="w-full items-center gap-2 ">
+              <Button
+                variant="secondary"
+                className="w-full items-center gap-2 "
+              >
                 <BookOpen className="h-4 w-4 md:h-5 md:w-5" />
                 Read the docs
               </Button>

@@ -17,7 +17,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useAuth, useClerk, useOrganization } from "@clerk/nextjs";
 
 import { Loading } from "@/components/dashboard/loading";
 import {
@@ -29,24 +28,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/toaster";
-import type { MembershipRole } from "@clerk/types";
 import Link from "next/link";
 
 type Member = {
   id: string;
   name: string;
   image: string;
-  role: MembershipRole;
+  role: "admin" | "member";
   email?: string;
 };
 
 export default function TeamPage() {
-  const { user, organization } = useClerk();
-
+  // TODO Load organization data
+  const organization = "string";
   if (!organization) {
     return (
       <EmptyPlaceholder>
-        <EmptyPlaceholder.Title>This is a personal account</EmptyPlaceholder.Title>
+        <EmptyPlaceholder.Title>
+          This is a personal account
+        </EmptyPlaceholder.Title>
         <EmptyPlaceholder.Description>
           You can only manage teams in paid workspaces.
         </EmptyPlaceholder.Description>
@@ -57,10 +57,8 @@ export default function TeamPage() {
       </EmptyPlaceholder>
     );
   }
-
-  const isAdmin =
-    user?.organizationMemberships.find((m) => m.organization.id === organization.id)?.role ===
-    "admin";
+  //TODO: Set check Admin
+  const isAdmin = true;
 
   type Tab = "members" | "invitations";
   const [tab, setTab] = useState<Tab>("members");
@@ -79,7 +77,7 @@ export default function TeamPage() {
             <SelectItem value="invitations">Invitations</SelectItem>
           </SelectGroup>
         </SelectContent>
-      </Select>,
+      </Select>
     );
   }
 
@@ -89,7 +87,11 @@ export default function TeamPage() {
 
   return (
     <div>
-      <PageHeader title="Members" description="Manage your team members" actions={actions} />
+      <PageHeader
+        title="Members"
+        description="Manage your team members"
+        actions={actions}
+      />
 
       {tab === "members" ? <Members /> : <Invitations />}
     </div>
@@ -97,11 +99,8 @@ export default function TeamPage() {
 }
 
 const Members: React.FC = () => {
-  const { user } = useClerk();
-
-  const { isLoaded, membershipList, membership, organization } = useOrganization({
-    membershipList: { limit: 20, offset: 0 },
-  });
+  //TODO :Load membership data for org.
+  const isLoaded = true;
 
   if (!isLoaded) {
     return (
@@ -130,12 +129,18 @@ const Members: React.FC = () => {
               <div className="flex w-full items-center gap-2 max-sm:m-0 max-sm:gap-1 max-sm:text-xs md:flex-grow">
                 <Avatar>
                   <AvatarImage src={publicUserData.imageUrl} />
-                  <AvatarFallback>{publicUserData.identifier.slice(0, 2)}</AvatarFallback>
+                  <AvatarFallback>
+                    {publicUserData.identifier.slice(0, 2)}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col items-start">
                   <span className="text-content font-medium">{`${
-                    publicUserData.firstName ? publicUserData.firstName : publicUserData.identifier
-                  } ${publicUserData.lastName ? publicUserData.lastName : ""}`}</span>
+                    publicUserData.firstName
+                      ? publicUserData.firstName
+                      : publicUserData.identifier
+                  } ${
+                    publicUserData.lastName ? publicUserData.lastName : ""
+                  }`}</span>
                   <span className="text-content-subtle text-xs">
                     {publicUserData.firstName ? publicUserData.identifier : ""}
                   </span>
@@ -146,7 +151,8 @@ const Members: React.FC = () => {
               <RoleSwitcher member={{ id: publicUserData.userId!, role }} />
             </TableCell>
             <TableCell>
-              {membership?.role === "admin" && publicUserData.userId !== user?.id ? (
+              {/* {membership?.role === "admin" &&
+              publicUserData.userId !== user?.id ? (
                 <Confirm
                   variant="alert"
                   title="Remove member"
@@ -162,7 +168,7 @@ const Members: React.FC = () => {
                     </Button>
                   }
                 />
-              ) : null}
+              ) : null} */}
             </TableCell>
           </TableRow>
         ))}
@@ -190,7 +196,9 @@ const Invitations: React.FC = () => {
     return (
       <EmptyPlaceholder>
         <EmptyPlaceholder.Title>No pending invitations</EmptyPlaceholder.Title>
-        <EmptyPlaceholder.Description>Invite members to your team</EmptyPlaceholder.Description>
+        <EmptyPlaceholder.Description>
+          Invite members to your team
+        </EmptyPlaceholder.Description>
         <InviteButton />
       </EmptyPlaceholder>
     );
@@ -210,7 +218,9 @@ const Invitations: React.FC = () => {
         {invitationList?.map((invitation) => (
           <TableRow key={invitation.id}>
             <TableCell>
-              <span className="text-content font-medium">{invitation.emailAddress}</span>
+              <span className="text-content font-medium">
+                {invitation.emailAddress}
+              </span>
             </TableCell>
             <TableCell>
               <StatusBadge status={invitation.status} />
@@ -286,10 +296,16 @@ const RoleSwitcher: React.FC<{
     );
   }
 
-  return <span className="text-content">{role === "admin" ? "Admin" : "Member"}</span>;
+  return (
+    <span className="text-content">
+      {role === "admin" ? "Admin" : "Member"}
+    </span>
+  );
 };
 
-const StatusBadge: React.FC<{ status: "pending" | "accepted" | "revoked" }> = ({ status }) => {
+const StatusBadge: React.FC<{ status: "pending" | "accepted" | "revoked" }> = ({
+  status,
+}) => {
   switch (status) {
     case "pending":
       return <Badge variant="primary">Pending</Badge>;

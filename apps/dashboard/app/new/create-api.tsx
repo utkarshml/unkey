@@ -14,15 +14,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toaster";
 import { trpc } from "@/lib/trpc/client";
-import { PostHogIdentify } from "@/providers/PostHogProvider";
-import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Code2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 const formSchema = z.object({
-  name: z.string().min(3, "Name is required and should be at least 3 characters").max(50),
+  name: z
+    .string()
+    .min(3, "Name is required and should be at least 3 characters")
+    .max(50),
 });
 
 type Props = {
@@ -36,12 +37,6 @@ export const CreateApi: React.FC<Props> = ({ workspace }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
-  const { user, isLoaded } = useUser();
-  const router = useRouter();
-
-  if (isLoaded && user) {
-    PostHogIdentify({ user });
-  }
   const createApi = trpc.api.create.useMutation({
     onSuccess: async ({ id: apiId }) => {
       toast.success("Your API has been created");
@@ -60,11 +55,19 @@ export const CreateApi: React.FC<Props> = ({ workspace }) => {
         </div>
         <h4 className="text-lg font-medium">What is an API?</h4>
         <p className="text-sm text-content-subtle">
-          An API groups all of your keys together. They are invisible to your users but allow you to
-          filter keys by a namespace. We recommend creating one API for each environment, typically{" "}
-          <span className="font-medium text-mono text-foreground">development</span>,{" "}
-          <span className="font-medium text-mono text-foreground">preview</span> and{" "}
-          <span className="font-medium text-mono text-foreground">production</span>.
+          An API groups all of your keys together. They are invisible to your
+          users but allow you to filter keys by a namespace. We recommend
+          creating one API for each environment, typically{" "}
+          <span className="font-medium text-mono text-foreground">
+            development
+          </span>
+          ,{" "}
+          <span className="font-medium text-mono text-foreground">preview</span>{" "}
+          and{" "}
+          <span className="font-medium text-mono text-foreground">
+            production
+          </span>
+          .
         </p>
         <ol className="ml-2 space-y-1 text-sm list-disc list-outside text-content-subtle">
           <li>Group keys together</li>
@@ -84,7 +87,9 @@ export const CreateApi: React.FC<Props> = ({ workspace }) => {
         <div>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit((values) => createApi.mutate({ ...values }))}
+              onSubmit={form.handleSubmit((values) =>
+                createApi.mutate({ ...values })
+              )}
               className="flex flex-col space-y-4"
             >
               <FormField
@@ -99,7 +104,10 @@ export const CreateApi: React.FC<Props> = ({ workspace }) => {
                     </FormControl>
                     <FormDescription>
                       <p>What should your api be called?</p>
-                      <p>This is just for you, and will not be visible to your customers</p>
+                      <p>
+                        This is just for you, and will not be visible to your
+                        customers
+                      </p>
                     </FormDescription>
                   </FormItem>
                 )}

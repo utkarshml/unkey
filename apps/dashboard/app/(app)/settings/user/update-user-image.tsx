@@ -2,23 +2,22 @@
 import type React from "react";
 import { type ChangeEvent, useCallback, useEffect, useState } from "react";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { toast } from "@/components/ui/toaster";
-import { useUser } from "@clerk/nextjs";
+
 import { UploadCloud } from "lucide-react";
 
 export const UpdateUserImage: React.FC = () => {
-  const { user } = useUser();
-
-  const [image, setImage] = useState<string | null>(user?.imageUrl ?? null);
+  //TODO: GET USER IMAGE FROM TABLES
+  const [image, setImage] = useState<string | null>(null);
 
   const [dragActive, setDragActive] = useState(false);
-
-  useEffect(() => {
-    if (user?.imageUrl) {
-      setImage(user.imageUrl);
-    }
-  }, [user?.imageUrl]);
 
   const onChangePicture = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,21 +42,10 @@ export const UpdateUserImage: React.FC = () => {
         setImage(e.target?.result as string);
       };
       reader.readAsDataURL(file);
-
-      if (!user) {
-        toast.error("Only allowed for orgs");
-        return;
-      }
-      user
-        .setProfileImage({ file })
-        .then(() => {
-          toast.success("Image uploaded");
-        })
-        .catch(() => {
-          toast.error("Error uploading image");
-        });
+      //TODO: Send insert to DB
+      console.log(file);
     },
-    [setImage, user],
+    [setImage]
   );
 
   return (
@@ -68,9 +56,7 @@ export const UpdateUserImage: React.FC = () => {
           toast.error("No image selected");
           return;
         }
-
-        await user?.setProfileImage({ file: image });
-        await user?.reload();
+        //TODO: Send insert to DB and reload page
         toast.success("Image uploaded");
       }}
     >
@@ -80,7 +66,8 @@ export const UpdateUserImage: React.FC = () => {
           <CardDescription>
             Click on the avatar to upload a custom one from your files.
             <br />
-            Square image recommended. Accepted file types: .png, .jpg. Max file size: 2MB.
+            Square image recommended. Accepted file types: .png, .jpg. Max file
+            size: 2MB.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -113,7 +100,10 @@ export const UpdateUserImage: React.FC = () => {
                 if (file) {
                   if (file.size / 1024 / 1024 > 2) {
                     toast.error("File size too big (max 2MB)");
-                  } else if (file.type !== "image/png" && file.type !== "image/jpeg") {
+                  } else if (
+                    file.type !== "image/png" &&
+                    file.type !== "image/jpeg"
+                  ) {
                     toast.error("File type not supported (.png or .jpg only)");
                   } else {
                     const reader = new FileReader();
@@ -127,9 +117,13 @@ export const UpdateUserImage: React.FC = () => {
             />
             <div
               className={`${
-                dragActive ? "cursor-copy border-2 border-black bg-gray-50 opacity-100" : ""
+                dragActive
+                  ? "cursor-copy border-2 border-black bg-gray-50 opacity-100"
+                  : ""
               } absolute z-[3] flex h-full w-full flex-col items-center justify-center rounded-full bg-white transition-all ${
-                image ? "opacity-0 group-hover:opacity-100" : "group-hover:bg-gray-50"
+                image
+                  ? "opacity-0 group-hover:opacity-100"
+                  : "group-hover:bg-gray-50"
               }`}
             >
               <UploadCloud
@@ -139,7 +133,11 @@ export const UpdateUserImage: React.FC = () => {
               />
             </div>
             {image && (
-              <img src={image} alt="Preview" className="object-cover w-full h-full rounded-full" />
+              <img
+                src={image}
+                alt="Preview"
+                className="object-cover w-full h-full rounded-full"
+              />
             )}
           </label>
           <div className="flex mt-1 rounded-full shadow-sm">

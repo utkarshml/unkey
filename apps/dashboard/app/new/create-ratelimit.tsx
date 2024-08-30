@@ -9,10 +9,6 @@ import { GlobeLock } from "lucide-react";
 import Link from "next/link";
 
 export const CreateRatelimit: React.FC = async () => {
-  const { sessionClaims, userId } = auth();
-  if (!userId) {
-    return null;
-  }
   const tenantId = getTenantId();
 
   const trpc = createCallerFactory()(router)({
@@ -44,9 +40,7 @@ export const CreateRatelimit: React.FC = async () => {
   -H 'Authorization: Bearer ${rootKey.key}' \\
   -d '{
       "namespace": "hello-ratelimit",
-      "identifier": "${
-        sessionClaims?.userName ?? sessionClaims?.email ?? sessionClaims?.sub ?? "hello"
-      }",
+      "identifier": "${"hello"}",
       "limit": 10,
       "duration": 10000
   }'`;
@@ -77,11 +71,12 @@ export const CreateRatelimit: React.FC = async () => {
 
         <div>
           <p className="text-sm">
-            Try this curl command and limit your first request, you can use a different namespace or
-            identifier if you want.
+            Try this curl command and limit your first request, you can use a
+            different namespace or identifier if you want.
           </p>
           <p className="text-sm">
-            The following request will limit the user to 10 requests per 10 seconds.
+            The following request will limit the user to 10 requests per 10
+            seconds.
           </p>
 
           <Code className="flex items-start justify-between gap-8 p-4 mt-4 text-xs text-left">
@@ -91,7 +86,9 @@ export const CreateRatelimit: React.FC = async () => {
         </div>
 
         <Link href="/ratelimits" className="block mt-8" prefetch>
-          <Button className="w-full">I have tried it out and want to see analytics</Button>
+          <Button className="w-full">
+            I have tried it out and want to see analytics
+          </Button>
         </Link>
       </main>
       <aside className="flex-col items-start justify-center w-1/4 space-y-16 md:flex max-md:hidden ">

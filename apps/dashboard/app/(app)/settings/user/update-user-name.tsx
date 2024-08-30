@@ -2,7 +2,13 @@
 import { EmptyPlaceholder } from "@/components/dashboard/empty-placeholder";
 import { Loading } from "@/components/dashboard/loading";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -14,8 +20,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toaster";
-import type { ClerkError } from "@/lib/clerk";
-import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type React from "react";
 import { useForm } from "react-hook-form";
@@ -28,45 +32,33 @@ const formSchema = z.object({
     .string()
     .min(3)
     .refine((v) => validCharactersRegex.test(v), {
-      message: "Username can only contain letters, numbers, dashes and underscores",
+      message:
+        "Username can only contain letters, numbers, dashes and underscores",
     }),
 });
 
 export const UpdateUserName: React.FC = () => {
-  const { user } = useUser();
+  //TODO: GET USER FROM LUCIA
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "all",
     defaultValues: {
-      username: user?.username ?? "",
+      username: "",
     },
   });
-  if (!user) {
-    return (
-      <EmptyPlaceholder className="min-h-[200px]">
-        <Loading />
-      </EmptyPlaceholder>
-    );
-  }
 
   const isDisabled = form.formState.isLoading || !form.formState.isValid;
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(({ username }) => {
-          user
-            .update({ username })
-            .then(() => {
-              toast.success("Workspace name updated");
-              user.reload();
-            })
-            .catch((err) => {
-              toast.error(
-                (err as ClerkError).errors.at(0)?.longMessage ??
-                  "Sorry there was an error updating your username",
-              );
-            });
+          //TODO: UPDATE USER IN DB
+          try {
+            console.log(username);
+          } catch {
+            toast.error("Couldn't update your username");
+          }
         })}
       >
         <Card>

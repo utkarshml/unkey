@@ -10,7 +10,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Check, ChevronsUpDown, Plus, UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type React from "react";
@@ -23,14 +27,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 
 export const WorkspaceSwitcher: React.FC = (): JSX.Element => {
-  const { isLoaded, setActive, userMemberships } = useOrganizationList({
-    userMemberships: {
-      infinite: true,
-      pageSize: 100,
-    },
-  });
-  const { organization: currentOrg, membership } = useOrganization();
-  const { user } = useUser();
+  //TODO: Add org check here
   const router = useRouter();
   async function changeOrg(orgId: string | null) {
     if (!setActive) {
@@ -45,6 +42,7 @@ export const WorkspaceSwitcher: React.FC = (): JSX.Element => {
     }
   }
   const [search, _setSearch] = useState("");
+  /*
   const filteredOrgs = useMemo(() => {
     if (!userMemberships.data) {
       return [];
@@ -56,14 +54,17 @@ export const WorkspaceSwitcher: React.FC = (): JSX.Element => {
       organization.name.toLowerCase().includes(search.toLowerCase()),
     );
   }, [search, userMemberships])!;
-
+  */
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center justify-between w-full h-12 gap-2 px-2 overflow-hidden rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 hover:cursor-pointer whitespace-nowrap ring-0 focus:ring-0 focus:outline-none ">
         <div className="flex items-center gap-2 overflow-hidden whitespace-nowrap">
           <Avatar className="w-6 h-6">
             {currentOrg?.imageUrl ? (
-              <AvatarImage src={currentOrg.imageUrl} alt={currentOrg.name ?? "Profile picture"} />
+              <AvatarImage
+                src={currentOrg.imageUrl}
+                alt={currentOrg.name ?? "Profile picture"}
+              />
             ) : user?.imageUrl ? (
               <AvatarImage
                 src={user.imageUrl}
@@ -120,7 +121,9 @@ export const WorkspaceSwitcher: React.FC = (): JSX.Element => {
               >
                 <span
                   className={
-                    membership.organization.id === currentOrg?.id ? "font-semibold" : undefined
+                    membership.organization.id === currentOrg?.id
+                      ? "font-semibold"
+                      : undefined
                   }
                 >
                   {" "}
@@ -140,14 +143,16 @@ export const WorkspaceSwitcher: React.FC = (): JSX.Element => {
               <span>Create Workspace</span>
             </Link>
           </DropdownMenuItem>
-          {membership?.role === "admin" ? (
+          {/* TODO: Add a way to invite members
+
+            {membership?.role === "admin" ? (
             <Link href="/settings/team">
               <DropdownMenuItem>
                 <UserPlus className="w-4 h-4 mr-2 " />
                 <span className="cursor-pointer">Invite Member</span>
               </DropdownMenuItem>
             </Link>
-          ) : null}
+          ) : null} */}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

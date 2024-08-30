@@ -1,6 +1,10 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import type { Workspace } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import {
@@ -23,7 +27,7 @@ import { useSelectedLayoutSegments } from "next/navigation";
 import { useRouter } from "next/navigation";
 import type React from "react";
 import { useTransition } from "react";
-import { WorkspaceSwitcher } from "./team-switcher";
+//import { WorkspaceSwitcher } from "./team-switcher";
 import { UserButton } from "./user-button";
 type Props = {
   workspace: Workspace & {
@@ -47,11 +51,14 @@ type NavItem = {
   hidden?: boolean;
 };
 
-const Tag: React.FC<{ label: string; className?: string }> = ({ label, className }) => (
+const Tag: React.FC<{ label: string; className?: string }> = ({
+  label,
+  className,
+}) => (
   <div
     className={cn(
       "bg-background border text-content-subtle rounded text-xs px-1 py-0.5  font-mono ",
-      className,
+      className
     )}
   >
     {label}
@@ -129,7 +136,7 @@ export const DesktopSidebar: React.FC<Props> = ({ workspace, className }) => {
   return (
     <aside className={cn("inset-y-0 w-64 px-6 z-10 h-screen", className)}>
       <div className="flex min-w-full mt-4 -mx-2">
-        <WorkspaceSwitcher />
+        {/*<WorkspaceSwitcher >*/}
       </div>
       {workspace.planDowngradeRequest ? (
         <div className="flex justify-center w-full mt-2">
@@ -138,8 +145,9 @@ export const DesktopSidebar: React.FC<Props> = ({ workspace, className }) => {
               <Badge size="sm">Subscription ending</Badge>
             </TooltipTrigger>
             <TooltipContent>
-              Your plan is schedueld to be downgraded to the {workspace.planDowngradeRequest} tier
-              on {firstOfNextMonth.toDateString()}
+              Your plan is schedueld to be downgraded to the{" "}
+              {workspace.planDowngradeRequest} tier on{" "}
+              {firstOfNextMonth.toDateString()}
             </TooltipContent>
           </Tooltip>
         </div>
@@ -147,7 +155,9 @@ export const DesktopSidebar: React.FC<Props> = ({ workspace, className }) => {
       <nav className="flex flex-col flex-1 flex-grow mt-4">
         <ul className="flex flex-col flex-1 gap-y-7">
           <li>
-            <h2 className="text-xs font-semibold leading-6 text-content">General</h2>
+            <h2 className="text-xs font-semibold leading-6 text-content">
+              General
+            </h2>
             <ul className="mt-2 -mx-2 space-y-1">
               {navigation.map((item) => (
                 <li key={item.label}>
@@ -184,7 +194,7 @@ const NavLink: React.FC<{ item: NavItem }> = ({ item }) => {
         {
           "bg-gray-200 dark:bg-gray-800": item.active,
           "text-content-subtle pointer-events-none": item.disabled,
-        },
+        }
       )}
     >
       <div className="flex group gap-x-2">
