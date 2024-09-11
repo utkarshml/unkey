@@ -40,6 +40,17 @@ export type Template = {
 };
 
 export const templates: Record<string, Template> = {
+  "openai-semantic-cache": {
+    title: "Integrate Unkey Semantic Cache",
+    description: "Quickly add semantic cache to your OpenAI-powered application",
+    authors: ["mcstepp"],
+    repository: "https://github.com/unkeyed/examples/tree/main/openai-semantic-cache",
+    image: "/images/templates/openai-semantic-cache.png",
+    readmeUrl:
+      "https://raw.githubusercontent.com/unkeyed/examples/main/openai-semantic-cache/README.md",
+    language: "Typescript",
+    framework: "Next.js",
+  },
   "unkey-trpc-ratelimit": {
     title: "Unkey ratelimiting with TRPC + Drizzle",
     description: "Quickstart using tRPC, Drizzle and Unkey Ratelimiting",
@@ -134,7 +145,6 @@ export const templates: Record<string, Template> = {
     authors: ["ethan-stone"],
     repository: "https://github.com/unkeyed/examples/tree/main/nextjs-expiration",
     image: "/images/templates/expire-keys.png",
-
     readmeUrl:
       "https://raw.githubusercontent.com/unkeyed/examples/main/nextjs-expiration/README.md",
     language: "Typescript",
