@@ -26,6 +26,7 @@ export async function GET() {
       description: post.description,
       author: author.name,
       categories: post.tags || [],
+      custom_elements: [{ "content:encoded": post.content }],
     });
   });
 
